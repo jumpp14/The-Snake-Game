@@ -8,7 +8,6 @@ function Snake(){
   this.paused = false;
   this.dead = false;
   
-  
   this.foodRed = 255;
   this.foodGreen = 255;
   this.foodBlue = 255;
@@ -16,21 +15,19 @@ function Snake(){
   this.snakeGreen = this.foodGreen;
   this.snakeBlue = this.foodBlue;
   
-  
-  
   this.dir = function(x, y) {
-  this.xspeed = x;
-  this.yspeed = y;
+    this.xspeed = x;
+    this.yspeed = y;
   }
   
   this.togglePause = function() {
-  if (!this.paused){
-    this.paused = true;
-  } else if (this.paused){
-    this.paused= false;
+    if (!this.paused){
+      this.paused = true;
+    } 
+    else if (this.paused){
+      this.paused= false;
+      }
   }
-}
-
 
   this.startOver = function(){
     this.x = 0;
@@ -44,7 +41,7 @@ function Snake(){
   }
 
   
-  this.ifEnd = function() {
+  this.isEnd = function() {
     if (this.x < 0 || this.x > width - scl || this.y < 0 || this.y > height - scl){
         this.dead = true;
     } else {
@@ -65,8 +62,6 @@ function Snake(){
       this.snakeRed = this.foodRed;
       this.snakeGreen = this.foodGreen;
       this.snakeBlue = this.foodBlue;
-      
-      //console.log(this.x, this.y, pos.x, pos.y);
       return true;
     } else {
       return false;
@@ -82,11 +77,8 @@ function Snake(){
     } else {
       this.tail.push(createVector(this.x, this.y));
     }
-        
     this.x = this.x + this.xspeed * scl;
     this.y = this.y + this.yspeed * scl;
-    
-
   }
   
   this.show = function() {
@@ -94,8 +86,5 @@ function Snake(){
     for(var i = 0; i < this.tail.length; i++){
       rect(this.tail[i].x, this.tail[i].y, scl, scl);
     }
-
   }
-  
-
 }

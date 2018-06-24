@@ -1,127 +1,106 @@
-var s;
+var ourSnake;
 var scl = 20;
-
 var food;
-
-var keyValid;
-
-
-var ctx;
-
-
+var isKeyValid;
+var canvasContext;
 
 function setup() {
   createCanvas(600, 600);
-  s = new Snake();
-  s.tail.push(createVector(s.x, s.y));
+  ourSnake = new Snake();
+  ourSnake.tail.push(createVector(ourSnake.x, ourSnake.y));
   frameRate(10);
   pickLocation();
-  ctx = canvas.getContext("2d");
-  keyValid = true;
- 
-  
+  canvasContext = canvas.getContext("2d");
+  isKeyValid = true;
 }
 
 function pickLocation(){
-  s.foodRed = Math.floor(Math.random() * 235) + 20;
-  s.foodGreen = Math.floor(Math.random() * 235) + 20;
-  s.foodBlue = Math.floor(Math.random() * 235) + 20;
-  var cols = floor(600/scl);
+  ourSnake.foodRed = Math.floor(Math.random() * 235) + 20;
+  ourSnake.foodGreen = Math.floor(Math.random() * 235) + 20;
+  ourSnake.foodBlue = Math.floor(Math.random() * 235) + 20;
+  var columns = floor(600/scl);
   var rows = floor(600/scl);
-  food = createVector(floor(random(cols)),floor(random(rows))); 
+  food = createVector(floor(random(columns)),floor(random(rows))); 
   food.mult(scl);
 }
 
-
-function draw() {
-  
+function draw() {  
   background(51);
-  
-  fill(s.foodRed, s.foodGreen, s.foodBlue);
+  fill(ourSnake.foodRed, ourSnake.foodGreen, ourSnake.foodBlue);
   rect(food.x,food.y, scl, scl);
-  
-  if(!s.paused){
-    
-    if(s.eat(food)){
+  if(!ourSnake.paused){
+    if(ourSnake.eat(food)){
       pickLocation();
-      fill(s.foodRed, s.foodGreen, s.foodBlue);
+      fill(ourSnake.foodRed, ourSnake.foodGreen, ourSnake.foodBlue);
       rect(food.x,food.y, scl, scl);
     }
   }
   
-  s.ifEnd();
-  
-  if(!s.dead) {
-    if(s.paused) {
-      
-      ctx.font = "50px 'Bowlby One SC'";
-      ctx.fillStyle = '#cce6ff';
-      ctx.fillText("Pause", 200, 300);
-      s.show();
-      
-    } else {
-    s.update();
-    s.show();
-  }
-  } else {
-      
-    ctx.font = "60px 'Sedgwick Ave Display'";
+  ourSnake.isEnd();
+  if(!ourSnake.dead) {
+    if(ourSnake.paused) {
+      canvasContext.font = "50px 'Bowlby One SC'";
+      canvasContext.fillStyle = '#cce6ff';
+      canvasContext.fillText("Pause", 200, 300);
+      ourSnake.show();
+    } 
+    else {
+    ourSnake.update();
+    ourSnake.show();
+    }
+  } 
+  else {   
+    canvasContext.font = "60px 'Sedgwick Ave Display'";
     fill('#ff3385')
-    ctx.fillText("Game Over", 180, 250);
-    ctx.font = "50px 'Julee'";
-    ctx.fillStyle = '#ffcc99';
-    ctx.fillText("Start Over?", 200, 310);
+    canvasContext.fillText("Game Over", 180, 250);
+    canvasContext.font = "50px 'Julee'";
+    canvasContext.fillStyle = '#ffcc99';
+    canvasContext.fillText("Start Over?", 200, 310);
     fill('#0073e6');
     ellipse(300, 380, 120, 120);
     fill('#ffe6f0');
     ellipse(300, 380, 100, 100);
-    ctx.font = "30px 'Julee'";
+    canvasContext.font = "30px 'Julee'";
     fill('#3973ac');
-    ctx.fillText("Yes!", 280, 370);
-    ctx.font = "20px 'Julee'";
-    ctx.fillText("or Press 'y'", 260, 400);
-    s.show();
-    
-    }
-    
-    
-  if(keyValid === false){
-    keyValid = true;
+    canvasContext.fillText("Yes!", 280, 370);
+    canvasContext.font = "20px 'Julee'";
+    canvasContext.fillText("or Press 'y'", 260, 400);
+    ourSnake.show();
   }
-    
+
+  if(isKeyValid === false){
+    isKeyValid = true;
+  }  
 }
 
-
-
 function keyPressed() {
-  if (keyValid === true && s.paused === false && keyCode === UP_ARROW && s.yspeed !== 1 && s.yspeed !== -1) {
-    s.dir(0, -1);
-    keyValid = false;
-  } else if (keyValid === true && s.paused === false && keyCode === DOWN_ARROW && s.yspeed !== 1 && s.yspeed !== -1) {
-    s.dir(0, 1);
-    keyValid = false;
-  } else if (keyValid === true && s.paused === false && keyCode === RIGHT_ARROW && s.xspeed !== 1 && s.xspeed !== -1) {
-    s.dir(1, 0);
-    keyValid = false;
-  } else if (keyValid === true && s.paused === false && keyCode === LEFT_ARROW && s.xspeed !== 1 && s.xspeed !== -1) {
-    s.dir(-1, 0);
-    keyValid = false;
+  if (isKeyValid === true && ourSnake.paused === false && keyCode === UP_ARROW && ourSnake.yspeed !== 1 && ourSnake.yspeed !== -1) {
+    ourSnake.dir(0, -1);
+    isKeyValid = false;
+  } else if (isKeyValid === true && ourSnake.paused === false && keyCode === DOWN_ARROW && ourSnake.yspeed !== 1 && ourSnake.yspeed !== -1) {
+    ourSnake.dir(0, 1);
+    isKeyValid = false;
+  } else if (isKeyValid === true && ourSnake.paused === false && keyCode === RIGHT_ARROW && ourSnake.xspeed !== 1 && ourSnake.xspeed !== -1) {
+    ourSnake.dir(1, 0);
+    isKeyValid = false;
+  } else if (isKeyValid === true && ourSnake.paused === false && keyCode === LEFT_ARROW && ourSnake.xspeed !== 1 && ourSnake.xspeed !== -1) {
+    ourSnake.dir(-1, 0);
+    isKeyValid = false;
   } 
 }
 
 function keyTyped() {
   if (key === 'p'){
-    s.togglePause();
+    ourSnake.togglePause();
   }
   if (key === 'y'){
-    s.startOver();
-    
+    ourSnake.startOver();    
   }
 }
 
 function mousePressed(){
   var d = dist(mouseX, mouseY, 300, 380);
   if (d <= 120) {
-    s.startOver();
+    ourSnake.startOver();
   }
 }
